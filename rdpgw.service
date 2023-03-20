@@ -1,0 +1,13 @@
+[Unit]
+Description=RDPGW
+After=syslog.target network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/rdpgw -c /root/rdpgw/rdpgw.yaml
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target
+
