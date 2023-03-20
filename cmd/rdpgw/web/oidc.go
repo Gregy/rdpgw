@@ -10,12 +10,14 @@ import (
 	"math/rand"
 	"net/http"
 	"time"
+	"fmt"
+	"strings"
 )
 
 const (
 	CacheExpiration = time.Minute * 2
 	CleanupInterval = time.Minute * 5
-	oidcKeyUserName = "preferred_username"
+	oidcKeyUserName = "email"
 )
 
 type OIDC struct {
@@ -79,9 +81,10 @@ func (h *OIDC) HandleCallback(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
+	    bs, _ := json.Marshal(resp)
+	    fmt.Println(string(bs))
 	id := identity.FromRequestCtx(r)
-	id.SetUserName(data[oidcKeyUserName].(string))
+	id.SetUserName(strings.Split(data[oidcKeyUserName].(string), "@")[0])
 	id.SetAuthenticated(true)
 	id.SetAuthTime(time.Now())
 	id.SetAttribute(identity.AttrAccessToken, oauth2Token.AccessToken)
