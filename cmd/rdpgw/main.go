@@ -166,7 +166,7 @@ func main() {
 			certMgr := autocert.Manager{
 				Prompt:     autocert.AcceptTOS,
 				HostPolicy: autocert.HostWhitelist(url.Host),
-				Cache:      autocert.DirCache("/tmp/rdpgw"),
+				Cache:      autocert.DirCache("/root/rdpgwcertcache"),
 			}
 			cfg.GetCertificate = certMgr.GetCertificate
 
